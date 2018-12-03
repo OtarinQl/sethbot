@@ -18,15 +18,14 @@ def twitter(x):
             if (x % 2 == 0 and x > 1):
                 list = list + src[x] + '\n'
     else:
-        list = 'No hay imagen que agregar tho :thinking:'
+        list = 'No hay imagen qué agregar tho :thinking:'
     return list
 
-token = 'NDgwODg5OTc5NDg1MDI4MzYy.Dtwy8g.-I5YRhHTgtFrGqif_YCVQD19R1I'
 client = commands.Bot(command_prefix = '-')
 
 @client.event
 async def on_ready():
-    print('El bot está conectado~')
+    print('El bot está conectado.')
 
 @client.event
 async def on_message(msg):
