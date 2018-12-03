@@ -1,5 +1,6 @@
 #Sethbot v.1.1.0 2/12/2018
 import re
+import os
 import discord
 import asyncio
 from discord.ext import commands
@@ -10,7 +11,6 @@ def twitter(x):
     r = session.get(x)
     img = r.html.find('.AdaptiveMedia-container', first=True)
     htmlCd = img.html
-
     src = re.findall('https://.+\.jpg|https://.+\.png', htmlCd)
     list = ''
     if (len(src) > 2):
@@ -37,4 +37,4 @@ async def on_message(msg):
         x = twitter(rec[1])
         await client.send_message(chn, x)
 
-client.run(token)
+client.run(os.getenv(token))
