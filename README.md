@@ -10,5 +10,3 @@ De momentos su única funcionalidad es cargar imágenes de un tweet, eventualmen
 ocurre qué. (?)
 
 Jajaj por qué escribo en español cuando acá puro estadounidense anda. Si algún hispanohablante cruza este bot le mando saludos a la racita
-
-Para añadirlo a sus servidores: https://discordapp.com/api/oauth2/authorize?client_id=480889979485028362&permissions=0&scope=bot
