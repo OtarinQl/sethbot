@@ -37,4 +37,4 @@ async def on_message(msg):
         x = twitter(rec[1])
         await client.send_message(chn, x)
 
-client.run(os.getenv(token))
+client.run(os.getenv('Token'))
