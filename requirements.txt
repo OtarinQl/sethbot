@@ -1,5 +1,3 @@
-os
-re
-asyncio
 discord.py
+asyncio
 requests_html
