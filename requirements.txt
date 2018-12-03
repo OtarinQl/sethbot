@@ -1,3 +1,4 @@
-discord.py
+re
 asyncio
+discord.py
 requests_html
