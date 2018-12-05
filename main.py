@@ -6,6 +6,26 @@ import asyncio
 from discord.ext import commands
 from requests_html import HTMLSession
 
+def housamo(y):
+    session = HTMLSession()
+    r = session.get('https://wiki.housamo.xyz/'+y[1])
+    if(str(r)!='<Response [404]>'):
+        if(len(y)==2 or y[2]=='3'):
+            htmlCd = r.html.find('#transient0',first=True)
+        else:
+            tabla = r.html.find('.toc',first=True)
+            tb = re.findall('☆\d|Variant',tabla.text)
+            x = 0
+            while('☆'+y[2]!=tb[x]):
+                x = x+1
+            htmlCd = r.html.find('#transient'+str(x),first=True)
+        match = re.findall('setTimeout.+',str(htmlCd.text))
+        info = htmlCd.text.replace(match[0],'')
+        embed = discord.Embed(title=y[1], description=info, color=0x00ff00)
+        return [None,embed]
+    else:
+        return ['No existe nada sobre `'+y[1]+'` :thinking:\nPrueba mandando el mensaje otra vez', None]
+
 def twitter(x):
     session = HTMLSession()
     r = session.get(x)
@@ -35,5 +55,10 @@ async def on_message(msg):
         rec = str(msg.content).split(' ')
         x = twitter(rec[1])
         await client.send_message(chn, x)
+    
+    if (msg.content.startswith('-h')):
+        rec = str(msg.content).split(' ')
+        x = housamo(rec)
+        await client.send_message(chn, content=x[0], embed=x[1])
 
 client.run(os.getenv('Token'))
