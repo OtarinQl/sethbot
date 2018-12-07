@@ -48,12 +48,16 @@ async def on_ready():
 
 @client.event
 async def on_message(msg):
+    
     chn = msg.channel
 
     if (msg.content.startswith('-t')):
         rec = str(msg.content).split(' ')
         x = twitter(rec[1])
         await client.send_message(chn, x)
+    
+    if (msg.content.startswith('Meper')):
+        await client.send_message(chn, 'No.')
     
     if (msg.content.startswith('-h')):
         rec = str(msg.content).split(' ')
