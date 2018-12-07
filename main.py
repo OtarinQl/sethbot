@@ -1,4 +1,4 @@
-#Sethbot v.1.1.0 2/12/2018
+#Sethbot v.1.1.2 7/12/2018
 import re
 import os
 import discord
@@ -20,7 +20,10 @@ def housamo(y):
                 x = x+1
             htmlCd = r.html.find('#transient'+str(x),first=True)
         match = re.findall('setTimeout.+',str(htmlCd.text))
-        info = htmlCd.text.replace(match[0],'')
+        if(len(match)>0):
+            info = htmlCd.text.replace(match[0],'')
+        else:
+            info = htmlCd.text
         return [[y[1],info],True]
     else:
         return ['No existe nada sobre `'+y[1]+'` :thinking:\nPrueba mandando el mensaje otra vez', False]
