@@ -16,7 +16,7 @@ def housamo(y):
             tabla = r.html.find('.toc',first=True)
             tb = re.findall('☆\d|Variant',tabla.text)
             x = 0
-            while('☆'+y[2]!=tb[x] or y[2]!=tb[x]):
+            while('☆'+y[2]!=tb[x]):
                 x = x+1
             htmlCd = r.html.find('#transient'+str(x),first=True)
         match = re.findall('setTimeout.+',str(htmlCd.text))
