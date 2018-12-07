@@ -16,15 +16,14 @@ def housamo(y):
             tabla = r.html.find('.toc',first=True)
             tb = re.findall('☆\d|Variant',tabla.text)
             x = 0
-            while('☆'+y[2]!=tb[x]):
+            while('☆'+y[2]!=tb[x] or y[2]!=tb[x]):
                 x = x+1
             htmlCd = r.html.find('#transient'+str(x),first=True)
         match = re.findall('setTimeout.+',str(htmlCd.text))
         info = htmlCd.text.replace(match[0],'')
-        embed = discord.Embed(title=y[1], description=info, color=0x00ff00)
-        return [None,embed]
+        return [[y[1],info],True]
     else:
-        return ['No existe nada sobre `'+y[1]+'` :thinking:\nPrueba mandando el mensaje otra vez', None]
+        return ['No existe nada sobre `'+y[1]+'` :thinking:\nPrueba mandando el mensaje otra vez', False]
 
 def twitter(x):
     session = HTMLSession()
@@ -59,6 +58,11 @@ async def on_message(msg):
     if (msg.content.startswith('-h')):
         rec = str(msg.content).split(' ')
         x = housamo(rec)
-        await client.send_message(chn, content=x[0], embed=x[1])
+        if(x[1]):
+            y = x[0]
+            embed = discord.Embed(title=y[0], description=y[1], color=0x00ff00)
+            await client.send_message(chn, embed=embed)
+        else:
+            await client.send_message(chn,x[0])
 
 client.run(os.getenv('Token'))
