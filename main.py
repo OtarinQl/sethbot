@@ -8,7 +8,8 @@ from requests_html import HTMLSession
 
 def housamo(y):
     session = HTMLSession()
-    r = session.get('https://wiki.housamo.xyz/'+y[1])
+    r = session.get('https://wiki.housamo.xyz/'+y[1].capitalize())
+    icon = r.html.search('<img src=\"{}\"')[0]
     if(str(r)!='<Response [404]>'):
         if(len(y)==2 or y[2]=='3'):
             htmlCd = r.html.find('#transient0',first=True)
@@ -24,7 +25,7 @@ def housamo(y):
             info = htmlCd.text.replace(match[0],'')
         else:
             info = htmlCd.text
-        return [[y[1],info],True]
+        return [[y[1],info,icon],True]
     else:
         return ['No existe nada sobre `'+y[1]+'` :thinking:\nPrueba mandando el mensaje otra vez', False]
 
@@ -40,7 +41,7 @@ def twitter(x):
             if (x % 2 == 0 and x > 1):
                 list = list + src[x] + '\n'
     else:
-        list = 'No hay imagen qué agregar tho :thinking:'
+        list = 'No hay imagen qué agregar :thinking:'
     return list
 
 client = commands.Bot(command_prefix = '-')
@@ -68,6 +69,7 @@ async def on_message(msg):
         if(x[1]):
             y = x[0]
             embed = discord.Embed(title=y[0], description=y[1], color=0x00ff00)
+            embed.set_footer(text=y[0],icon_url=y[2])
             await client.send_message(chn, embed=embed)
         else:
             await client.send_message(chn,x[0])
