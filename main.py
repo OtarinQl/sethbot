@@ -21,6 +21,8 @@ def housamo(y):
                 x = x+1
             htmlCd = r.html.find('#transient'+str(x),first=True)
         urls = r.html.search_all('<img src=\"{}\"')
+        if not re.match('.+\.png.+',str(urls[0])):
+            urls = r.html.search_all('<img alt=\"{}\" src=\"{}\"')
         icon = []
         icon.append(re.findall('https://.+\.png',str(urls[x*2]))[0])
         icon.append(re.findall('https://.+\.png',str(urls[(x*2)+1]))[0])
@@ -74,7 +76,7 @@ async def on_message(msg):
             y = x[0]
             embed = discord.Embed(title=y[0], description=y[1], color=0x00ff00)
             embed.set_footer(text=y[0],icon_url=y[2][0])
-            embed.set_thumbnail(url=y[2][1])
+            embed.set_image(url=y[2][1])
             await client.send_message(chn, embed=embed)
         else:
             await client.send_message(chn,x[0])
