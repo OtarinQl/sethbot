@@ -1,4 +1,4 @@
-#Sethbot v.1.1.2 7/12/2018
+#Thunderbot v.1.1.3 8/12/2018
 import re
 import os
 import discord
