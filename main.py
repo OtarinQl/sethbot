@@ -25,7 +25,7 @@ def housamo(y):
             info = htmlCd.text.replace(match[0],'')
         else:
             info = htmlCd.text
-        return [[y[1],info,icon],True]
+        return [[y[1].capitalize(), info, icon],True]
     else:
         return ['No existe nada sobre `'+y[1]+'` :thinking:\nPrueba mandando el mensaje otra vez', False]
 
@@ -69,7 +69,7 @@ async def on_message(msg):
         if(x[1]):
             y = x[0]
             embed = discord.Embed(title=y[0], description=y[1], color=0x00ff00)
-            embed.set_footer(text=y[0],icon_url=y[2].capitalize())
+            embed.set_footer(text=y[0],icon_url=y[2])
             await client.send_message(chn, embed=embed)
         else:
             await client.send_message(chn,x[0])
