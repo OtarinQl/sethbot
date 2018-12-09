@@ -9,10 +9,10 @@ from requests_html import HTMLSession
 def housamo(y):
     session = HTMLSession()
     r = session.get('https://wiki.housamo.xyz/'+y[1].capitalize())
-    icon = r.html.search('<img src=\"{}\"')[0]
     if(str(r)!='<Response [404]>'):
         if(len(y)==2 or y[2]=='3'):
             htmlCd = r.html.find('#transient0',first=True)
+            x = 0
         else:
             tabla = r.html.find('.toc',first=True)
             tb = re.findall('☆\d|Variant',tabla.text)
@@ -20,6 +20,10 @@ def housamo(y):
             while('☆'+y[2]!=tb[x]):
                 x = x+1
             htmlCd = r.html.find('#transient'+str(x),first=True)
+        urls = r.html.search_all('<img src=\"{}\"')
+        icon = []
+        icon.append(re.findall('https://.+\.png',str(urls[x*2]))[0])
+        icon.append(re.findall('https://.+\.png',str(urls[(x*2)+1]))[0])
         match = re.findall('setTimeout.+',str(htmlCd.text))
         if(len(match)>0):
             info = htmlCd.text.replace(match[0],'')
@@ -69,7 +73,8 @@ async def on_message(msg):
         if(x[1]):
             y = x[0]
             embed = discord.Embed(title=y[0], description=y[1], color=0x00ff00)
-            embed.set_footer(text=y[0],icon_url=y[2])
+            embed.set_footer(text=y[0],icon_url=y[2][0])
+            embed.set_thumbnail(url=y[2][1])
             await client.send_message(chn, embed=embed)
         else:
             await client.send_message(chn,x[0])
