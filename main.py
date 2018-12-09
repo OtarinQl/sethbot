@@ -69,7 +69,7 @@ async def on_message(msg):
         if(x[1]):
             y = x[0]
             embed = discord.Embed(title=y[0], description=y[1], color=0x00ff00)
-            embed.set_footer(text=y[0],icon_url=y[2])
+            embed.set_footer(text=y[0],icon_url=y[2].capitalize())
             await client.send_message(chn, embed=embed)
         else:
             await client.send_message(chn,x[0])
