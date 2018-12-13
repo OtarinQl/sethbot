@@ -61,8 +61,11 @@ async def on_message(msg):
     
     chn = msg.channel
     
+    if (msg.content.lower()=='cuando yo la vi'):
+        await client.send_message(chn, 'DIJE SI ESTA MUJER FUERA PARA MI https://www.youtube.com/watch?v=AZrxleo3bXY')
+    
     if (msg.content.lower()=='te encanta.'):
-        await client.send_message(chn, 'Verga')
+        await client.send_message(chn, 'Lamer')
     
     if (msg.content.lower()=='meper' or msg.content.lower()=='meper?'):
         await client.send_message(chn, 'No.')
