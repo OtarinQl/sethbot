@@ -61,6 +61,9 @@ async def on_message(msg):
     
     chn = msg.channel
     
+    if (msg.content.lower()=='te encanta.'):
+        await client.send_message(chn, 'Verga')
+    
     if (msg.content.lower()=='meper' or msg.content.lower()=='meper?'):
         await client.send_message(chn, 'No.')
     
