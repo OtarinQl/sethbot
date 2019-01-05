@@ -59,9 +59,9 @@ async def on_message(msg):
     
     chn = msg.channel
     
-    if (msg.content.startswith('https://twitter.com/')):
+    if (msg.content.startswith('-t')):
         rec = str(msg.content).split(' ')
-        x = twitter(rec[0])
+        x = twitter(rec[1])
         await client.send_message(chn, x)
     
     if (msg.content.startswith('-h')):
