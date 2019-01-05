@@ -38,15 +38,17 @@ def housamo(y):
 def twitter(x):
     session = HTMLSession()
     r = session.get(x)
-    img = r.html.search_all('data-image-url=\"{}\"')
-    x = 0
-    mens = ''
-    while x<4:
-        mens = mens + str(img[x].fixed) + '\n'
-        x=x+1
-    for char in '(\',)':
-        mens = mens.replace(char,'')
-    return mens
+    img = r.html.find('.AdaptiveMedia-container', first=True)
+    htmlCd = img.html
+    src = re.findall('https://.+\.jpg|https://.+\.png', htmlCd)
+    list = ''
+    if (len(src) > 2):
+        for x in range(0, (len(src) - 1)):
+            if (x % 2 == 0 and x > 1):
+                list = list + src[x] + '\n'
+    else:
+        list = 'No hay imagen qué agregar tho :thinking:'
+    return list
 
 client = commands.Bot(command_prefix = '-')
 
