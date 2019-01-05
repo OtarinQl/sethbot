@@ -38,17 +38,15 @@ def housamo(y):
 def twitter(x):
     session = HTMLSession()
     r = session.get(x)
-    img = r.html.find('.AdaptiveMedia-container', first=True)
-    htmlCd = img.html
-    src = re.findall('https://.+\.jpg|https://.+\.png', htmlCd)
-    list = ''
-    if (len(src) > 2):
-        for x in range(0, (len(src) - 1)):
-            if (x % 2 == 0 and x > 1):
-                list = list + src[x] + '\n'
-    else:
-        list = 'No hay imagen qué agregar :thinking:'
-    return list
+    img = r.html.search_all('data-image-url=\"{}\"')
+    x = 0
+    mens = ''
+    while x<4:
+        mens = mens + str(img[x].fixed) + '\n'
+        x=x+1
+    for char in '(\',)':
+        mens = mens.replace(char,'')
+    return mens
 
 client = commands.Bot(command_prefix = '-')
 
@@ -61,18 +59,9 @@ async def on_message(msg):
     
     chn = msg.channel
     
-    if (msg.content.lower()=='cuando yo la vi'):
-        await client.send_message(chn, 'DIJE SI ESTA MUJER FUERA PARA MI https://www.youtube.com/watch?v=AZrxleo3bXY')
-    
-    if (msg.content.lower()=='te encanta.'):
-        await client.send_message(chn, 'Lamer')
-    
-    if (msg.content.lower()=='meper' or msg.content.lower()=='meper?'):
-        await client.send_message(chn, 'No.')
-    
-    if (msg.content.startswith('-t')):
+    if (msg.content.startswith('https://twitter.com/')):
         rec = str(msg.content).split(' ')
-        x = twitter(rec[1])
+        x = twitter(rec[0])
         await client.send_message(chn, x)
     
     if (msg.content.startswith('-h')):
