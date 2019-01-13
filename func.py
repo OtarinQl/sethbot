@@ -20,28 +20,44 @@ def housamo(y):
 #La función toma como entrada el nombre del personaje y lo añade al enlace de la wiki de Housamo para buscar información de este.
     session = HTMLSession()
     r = session.get('https://wiki.housamo.xyz/'+y.capitalize())
-    if(str(r)!='<Response [404]>'):
-        if(len(y)==2 or y[2]=='3'):
-            htmlCd = r.html.find('#transient0',first=True)
-            x = 0
-        else:
-            tabla = r.html.find('.toc',first=True)
-            tb = re.findall('☆\d|Variant',tabla.text)
-            x = 0
-            while('☆'+y[2]!=tb[x]):
-                x = x+1
-            htmlCd = r.html.find('#transient'+str(x),first=True)
-        urls = r.html.search_all('<img src=\"{}\"')
-        if not re.match('.+\.png.+',str(urls[0])):
-            urls = r.html.search_all('<img alt=\"{}\" src=\"{}\"')
-        icon = []
-        icon.append(re.findall('https://.+\.png',str(urls[x*2]))[0])
-        icon.append(re.findall('https://.+\.png',str(urls[(x*2)+1]))[0])
-        match = re.findall('setTimeout.+',str(htmlCd.text))
-        if(len(match)>0):
-            info = htmlCd.text.replace(match[0],'')
-        else:
-            info = htmlCd.text
-        return [[y[1].capitalize(), info, icon],True]
+    if str(r)!='<Response [404]>':
+        htmlCd = r.html.find('#transient0',first=True)
+        mens = ''
+        for x in range(0,int(htmlCd.search('<th>Rarity</th>\n<td>{}</td>')[0])):
+            mens = mens + ':star:'
+        mens = '**Rarity** '+mens+'    '
+        mens = mens+'**Cost** '+str(htmlCd.search('<th>Cost</th>\n<td>{}</td>')[0])+'\n**Weapon** '
+        if str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Slash':
+            mens = mens + ':crossed_swords:'
+        elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Blow':
+            mens = mens + ':boxing_glove:'
+        elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Shot':
+            mens = mens + ':bow_and_arrow:'
+        elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Snipe':
+            mens = mens + ':gun:'
+        elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Magic':
+            mens = mens + ':sparkles:'
+        elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Thrust':
+            mens = mens + ':pen_fountain:'
+        mens = mens + '    **Type** '
+        if str(htmlCd.search('class="transient-container {} transient')[0])=='all-round':
+            mens = mens + ':regional_indicator_a: :regional_indicator_l: :regional_indicator_l:'
+        elif str(htmlCd.search('class="transient-container {} transient')[0])=='wood':
+            mens = mens + ':seedling:'
+        elif str(htmlCd.search('class="transient-container {} transient')[0])=='fire':
+            mens = mens + ':fire:'
+        elif str(htmlCd.search('class="transient-container {} transient')[0])=='water':
+            mens = mens + ':ocean:'
+        elif str(htmlCd.search('class="transient-container {} transient')[0])=='aether':
+            mens = mens + ':sun_with_face:'
+        elif str(htmlCd.search('class="transient-container {} transient')[0])=='nether':
+            mens = mens + ':new_moon_with_face:'
+        elif str(htmlCd.search('class="transient-container {} transient')[0])=='infernal':
+            mens = mens + ':smiling_imp:'
+        elif str(htmlCd.search('class="transient-container {} transient')[0])=='valiant':
+            mens = mens + ':cop:'
+        elif str(htmlCd.search('class="transient-container {} transient')[0])=='world':
+            mens = mens + ':park:'
+        return True, mens, str(htmlCd.search('<div class="artwork"><img src=\"{}\"/></div>')[0]), str(htmlCd.search('<td class="icon"><img src="{}"')[0])
     else:
-        return ['No existe nada sobre `'+y+'` :thinking:\nPrueba mandando el mensaje otra vez', False]
+        return False, 'No se ha encontrada nada sobre `'+y+'`:thinking:\nPruebe buscar con otro personaje.'
