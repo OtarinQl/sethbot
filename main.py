@@ -1,4 +1,4 @@
-#Thunderbot v.1.2.0 12/1/2019
+#Thunderbot v.1.2.1 13/1/2019
 import os
 import discord
 from func import twitter, housamo
@@ -17,13 +17,12 @@ async def on_message(msg):
         await bot.send_message(channel, twitter(msg.content.split(' ')[1]))
     if msg.content.startswith('-h'):
         x = housamo(msg.content.split(' ')[1])
-        if x[1]:
-            y=x[0]
-            embed = discord.Embed(title=y[0], description=y[1], color=0x00ff00)
-            embed.set_footer(text=y[0], icon_url=y[2][0])
-            embed.set_image(url=y[2][1])
-            await bot.send_message(channel, embed=embed)
+        if x[0]:
+            cont = discord.Embed(title=msg.content.split(' ')[1].capitalize(), description=x[1], color=0x00ff00)
+            cont.set_image(url=x[2])
+            cont.set_footer(text=msg.content.split(' ')[1].capitalize(), icon_url=x[3])
+            await bot.send_message(channel, embed=cont)
         else:
-            await bot.send_message(channel, x[0])
+            await bot.send_message(channel,x[1])
 
 bot.run(os.getenv('Token'))
