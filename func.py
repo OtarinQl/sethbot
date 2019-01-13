@@ -19,7 +19,7 @@ def twitter(x):
 def housamo(y):
 #La función toma como entrada el nombre del personaje y lo añade al enlace de la wiki de Housamo para buscar información de este.
     session = HTMLSession()
-    r = session.get('https://wiki.housamo.xyz/'+y[1].capitalize())
+    r = session.get('https://wiki.housamo.xyz/'+y.capitalize())
     if(str(r)!='<Response [404]>'):
         if(len(y)==2 or y[2]=='3'):
             htmlCd = r.html.find('#transient0',first=True)
@@ -44,4 +44,4 @@ def housamo(y):
             info = htmlCd.text
         return [[y[1].capitalize(), info, icon],True]
     else:
-        return ['No existe nada sobre `'+y[1]+'` :thinking:\nPrueba mandando el mensaje otra vez', False]
+        return ['No existe nada sobre `'+y+'` :thinking:\nPrueba mandando el mensaje otra vez', False]
