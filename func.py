@@ -16,17 +16,28 @@ def twitter(x):
     else:
         return 'No hay nada qué agregar :thinking:'
 
-def housamo(y):
+def housamo(y,z = '3'):
 #La función toma como entrada el nombre del personaje y lo añade al enlace de la wiki de Housamo para buscar información de este.
     session = HTMLSession()
     r = session.get('https://wiki.housamo.xyz/'+y.capitalize())
     if str(r)!='<Response [404]>':
+        n = 0
         htmlCd = r.html.find('#transient0',first=True)
+        if z.lower() != 'variant':
+            while z != str(htmlCd.search('<th>Rarity</th>\n<td>{}</td>')):
+                n = n+1
+                htmlCd = r.html.find('#transient' + str(n), first=True)
+        else:
+            while htmlCd.search('<th>Variant</th>\n<td>{}</td>')==None:
+                n = n+1
+                htmlCd = r.html.find('#transient' + str(n), first=True)
         mens = ''
         for x in range(0,int(htmlCd.search('<th>Rarity</th>\n<td>{}</td>')[0])):
             mens = mens + ':star:'
-        mens = '**Rarity** '+mens+'    '
-        mens = mens+'**Cost** '+str(htmlCd.search('<th>Cost</th>\n<td>{}</td>')[0])+'\n**Weapon** '
+        mens = '**Rarity** '+mens+' '
+        mens = mens+'**Cost** '+str(htmlCd.search('<th>Cost</th>\n<td>{}</td>')[0])+'\n**HP** '
+        mens = mens + str(htmlCd.search('<th>HP</th>\n<td>{}</td>')[0])+' **ATK** '
+        mens = mens + str(htmlCd.search('<th>ATK</th>\n<td>{}</td>')[0])+'\n'
         if str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Slash':
             mens = mens + ':crossed_swords:'
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Blow':
@@ -39,7 +50,7 @@ def housamo(y):
             mens = mens + ':sparkles:'
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Thrust':
             mens = mens + ':pen_fountain:'
-        mens = mens + '    **Type** '
+        mens = mens + ' **Type** '
         if str(htmlCd.search('class="transient-container {} transient')[0])=='all-round':
             mens = mens + ':regional_indicator_a: :regional_indicator_l: :regional_indicator_l:'
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='wood':
