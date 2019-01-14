@@ -1,4 +1,3 @@
-import re
 from requests_html import HTMLSession
 
 def twitter(x):
@@ -37,7 +36,7 @@ def housamo(y,z = '3'):
         mens = '**Rarity** '+mens+' '
         mens = mens+'**Cost** '+str(htmlCd.search('<th>Cost</th>\n<td>{}</td>')[0])+'\n**HP** '
         mens = mens + str(htmlCd.search('<th>HP</th>\n<td>{}</td>')[0])+' **ATK** '
-        mens = mens + str(htmlCd.search('<th>ATK</th>\n<td>{}</td>')[0])+'\n'
+        mens = mens + str(htmlCd.search('<th>ATK</th>\n<td>{}</td>')[0])+'\n**Weapon** '
         if str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Slash':
             mens = mens + ':crossed_swords:'
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Blow':
