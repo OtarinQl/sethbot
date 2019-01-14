@@ -23,7 +23,7 @@ def housamo(y,z = '3'):
         n = 0
         htmlCd = r.html.find('#transient0',first=True)
         if z.lower() != 'variant':
-            while z != str(htmlCd.search('<th>Rarity</th>\n<td>{}</td>')):
+            while z != str(htmlCd.search('<th>Rarity</th>\n<td>{}</td>')[0]):
                 n = n+1
                 htmlCd = r.html.find('#transient' + str(n), first=True)
         else:
