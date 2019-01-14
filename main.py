@@ -16,7 +16,10 @@ async def on_message(msg):
     if msg.content.startswith('-t'):
         await bot.send_message(channel, twitter(msg.content.split(' ')[1]))
     if msg.content.startswith('-h'):
-        x = housamo(msg.content.split(' ')[1])
+        if len(msg.content.split(' '))==2:
+            x = housamo(msg.content.split(' ')[1])
+        else:
+            x = housamo(msg.content.split(' ')[1],msg.content.split(' ')[2])
         if x[0]:
             cont = discord.Embed(title=msg.content.split(' ')[1].capitalize(), description=x[1], color=0x00ff00)
             cont.set_image(url=x[2])
