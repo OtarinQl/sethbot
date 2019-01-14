@@ -48,7 +48,7 @@ def housamo(y,z = '3'):
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Magic':
             mens = mens + ':sparkles:'
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Thrust':
-            mens = mens + ':pen_fountain:'
+            mens = mens + ':pushpin:'
         mens = mens + ' **Type** '
         if str(htmlCd.search('class="transient-container {} transient')[0])=='all-round':
             mens = mens + ':regional_indicator_a: :regional_indicator_l: :regional_indicator_l:'
@@ -67,7 +67,7 @@ def housamo(y,z = '3'):
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='valiant':
             mens = mens + ':cop:'
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='world':
-            mens = mens + ':park:'
+            mens = mens + ':earth_asia:'
         return True, mens, str(htmlCd.search('<div class="artwork"><img src=\"{}\"/></div>')[0]), str(htmlCd.search('<td class="icon"><img src="{}"')[0])
     else:
         return False, 'No se ha encontrada nada sobre `'+y+'`:thinking:\nPruebe buscar con otro personaje.'
