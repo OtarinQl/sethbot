@@ -9,7 +9,7 @@ def twitter(x):
         y = 1
         x1 = ''
         while y < len(img):
-            x1=x1+str(img[y])[10:(len(str(img[y]))-7)]+'\n'
+            x1=x1+str(img[y][0])+'\n'
             y = y+1
         return x1
     else:
@@ -30,44 +30,44 @@ def housamo(y,z = '3'):
             while htmlCd.search('<th>Variant</th>\n<td>{}</td>')==None:
                 n = n+1
                 htmlCd = r.html.find('#transient' + str(n), first=True)
-        mens = ''
+        rarity = ['Rarity','']
         for x in range(0,int(htmlCd.search('<th>Rarity</th>\n<td>{}</td>')[0])):
-            mens = mens + ':star:'
-        mens = '**Rarity** '+mens+' '
-        mens = mens+'**Cost** '+str(htmlCd.search('<th>Cost</th>\n<td>{}</td>')[0])+'\n**HP** '
-        mens = mens + str(htmlCd.search('<th>HP</th>\n<td>{}</td>')[0])+' **ATK** '
-        mens = mens + str(htmlCd.search('<th>ATK</th>\n<td>{}</td>')[0])+'\n**Weapon** '
+            rarity[1] = rarity[1] + ':star:'
+        cost = ['Cost',str(htmlCd.search('<th>Cost</th>\n<td>{}</td>')[0])]
+        hp = ['HP',str(htmlCd.search('<th>HP</th>\n<td>{}</td>')[0])]
+        atk = ['ATK',str(htmlCd.search('<th>ATK</th>\n<td>{}</td>')[0])]
+        weapon = ['Weapon','']
         if str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Slash':
-            mens = mens + ':crossed_swords:'
+            weapon[1] = weapon[1] + ':crossed_swords:'
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Blow':
-            mens = mens + ':boxing_glove:'
+            weapon[1] = weapon[1] + ':boxing_glove:'
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Shot':
-            mens = mens + ':bow_and_arrow:'
+            weapon[1] = weapon[1] + ':bow_and_arrow:'
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Snipe':
-            mens = mens + ':gun:'
+            weapon[1] = weapon[1] + ':gun:'
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Magic':
-            mens = mens + ':sparkles:'
+            weapon[1] = weapon[1] + ':sparkles:'
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Thrust':
-            mens = mens + ':pushpin:'
-        mens = mens + ' **Type** '
+            weapon[1] = weapon[1] + ':pushpin:'
+        type_ = ['Type','']
         if str(htmlCd.search('class="transient-container {} transient')[0])=='all-round':
-            mens = mens + ':regional_indicator_a: :regional_indicator_l: :regional_indicator_l:'
+            type_[1] = type_[1] + ':regional_indicator_a: :regional_indicator_l: :regional_indicator_l:'
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='wood':
-            mens = mens + ':seedling:'
+            type_[1] = type_[1] + ':seedling:'
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='fire':
-            mens = mens + ':fire:'
+            type_[1] = type_[1] + ':fire:'
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='water':
-            mens = mens + ':ocean:'
+            type_[1] = type_[1] + ':ocean:'
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='aether':
-            mens = mens + ':sun_with_face:'
+            type_[1] = type_[1] + ':sun_with_face:'
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='nether':
-            mens = mens + ':new_moon_with_face:'
+            type_[1] = type_[1] + ':new_moon_with_face:'
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='infernal':
-            mens = mens + ':smiling_imp:'
+            type_[1] = type_[1] + ':smiling_imp:'
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='valiant':
-            mens = mens + ':cop:'
+            type_[1] = type_[1] + ':cop:'
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='world':
-            mens = mens + ':earth_asia:'
-        return True, mens, str(htmlCd.search('<div class="artwork"><img src=\"{}\"/></div>')[0]), str(htmlCd.search('<td class="icon"><img src="{}"')[0])
+            type_[1] = type_[1] + ':earth_asia:'
+        return True, rarity,cost,hp,atk,weapon,type_, str(htmlCd.search('<div class="artwork"><img src=\"{}\"/></div>')[0]), str(htmlCd.search('<td class="icon"><img src="{}"')[0])
     else:
         return False, 'No se ha encontrada nada sobre `'+y+'`:thinking:\nPruebe buscar con otro personaje.'
