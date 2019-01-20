@@ -1,3 +1,4 @@
+import discord.embeds
 from requests_html import HTMLSession
 
 def twitter(x):
@@ -30,44 +31,48 @@ def housamo(y,z = '3'):
             while htmlCd.search('<th>Variant</th>\n<td>{}</td>')==None:
                 n = n+1
                 htmlCd = r.html.find('#transient' + str(n), first=True)
-        rarity = ['Rarity','']
+        emMes = discord.Embed(title='',color=0x00ff00)
+        rarity = ''
         for x in range(0,int(htmlCd.search('<th>Rarity</th>\n<td>{}</td>')[0])):
-            rarity[1] = rarity[1] + ':star:'
-        cost = ['Cost',str(htmlCd.search('<th>Cost</th>\n<td>{}</td>')[0])]
-        hp = ['HP',str(htmlCd.search('<th>HP</th>\n<td>{}</td>')[0])]
-        atk = ['ATK',str(htmlCd.search('<th>ATK</th>\n<td>{}</td>')[0])]
-        weapon = ['Weapon','']
+            rarity = rarity + ':star:'
+        emMes.add_field(name='Rarity',value=rarity,inline=True)
+        emMes.add_field(name='Cost',value=str(htmlCd.search('<th>Cost</th>\n<td>{}</td>')[0]),inline=True)
+        emMes.add_field(name='HP',value=str(htmlCd.search('<th>HP</th>\n<td>{}</td>')[0]),inline=True)
+        emMes.add_field(name='ATK',value=str(htmlCd.search('<th>ATK</th>\n<td>{}</td>')[0]),inline=True)
         if str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Slash':
-            weapon[1] = weapon[1] + ':crossed_swords:'
+            emMes.add_field(name='Weapon',value=':crossed_swords:',inline=True)
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Blow':
-            weapon[1] = weapon[1] + ':boxing_glove:'
+            emMes.add_field(name='Weapon', value=':boxing_glove:', inline=True)
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Shot':
-            weapon[1] = weapon[1] + ':bow_and_arrow:'
+            emMes.add_field(name='Weapon', value=':bow_and_arrow:', inline=True)
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Snipe':
-            weapon[1] = weapon[1] + ':gun:'
+            emMes.add_field(name='Weapon', value=':gun:', inline=True)
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Magic':
-            weapon[1] = weapon[1] + ':sparkles:'
+            emMes.add_field(name='Weapon', value=':sparkles:', inline=True)
         elif str(htmlCd.search('alt="Weapon Spread {}.')[0])=='Thrust':
-            weapon[1] = weapon[1] + ':pushpin:'
+            emMes.add_field(name='Weapon', value=':pushpin:', inline=True)
         type_ = ['Type','']
         if str(htmlCd.search('class="transient-container {} transient')[0])=='all-round':
-            type_[1] = type_[1] + ':regional_indicator_a: :regional_indicator_l: :regional_indicator_l:'
+            emMes.add_field(name='Type',value=':regional_indicator_a: :regional_indicator_l: :regional_indicator_l:',inline=True)
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='wood':
-            type_[1] = type_[1] + ':seedling:'
+            emMes.add_field(name='Type',value=':seedling:',inline=True)
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='fire':
-            type_[1] = type_[1] + ':fire:'
+            emMes.add_field(name='Type',value=':fire:',inline=True)
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='water':
-            type_[1] = type_[1] + ':ocean:'
+            emMes.add_field(name='Type',value=':ocean:',inline=True)
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='aether':
-            type_[1] = type_[1] + ':sun_with_face:'
+            emMes.add_field(name='Type', value=':sun_with_face:', inline=True)
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='nether':
-            type_[1] = type_[1] + ':new_moon_with_face:'
+            emMes.add_field(name='Type', value=':new_moon_with_face:', inline=True)
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='infernal':
-            type_[1] = type_[1] + ':smiling_imp:'
+            emMes.add_field(name='Type', value=':smiling_imp:', inline=True)
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='valiant':
-            type_[1] = type_[1] + ':cop:'
+            emMes.add_field(name='Type', value=':cop:', inline=True)
         elif str(htmlCd.search('class="transient-container {} transient')[0])=='world':
-            type_[1] = type_[1] + ':earth_asia:'
-        return True, rarity,cost,hp,atk,weapon,type_, str(htmlCd.search('<div class="artwork"><img src=\"{}\"/></div>')[0]), str(htmlCd.search('<td class="icon"><img src="{}"')[0])
+            emMes.add_field(name='Type', value=':earth_asia:', inline=True)
+        emMes.set_image(url=str(htmlCd.search('<div class="artwork"><img src=\"{}\"/></div>')[0]))
+        emMes.set_footer(text='Artist - '+str(htmlCd.search('title=\"Illustrators\">{}</a>')[0]),icon_url=str(htmlCd.search('<td class="icon"><img src="{}"')[0]))
+        emMes.set_thumbnail(url=str(htmlCd.search('<td class="icon"><img src="{}"')[0]))
+        return True, emMes
     else:
-        return False, 'No se ha encontrada nada sobre `'+y+'`:thinking:\nPruebe buscar con otro personaje.'
+        return False, 'No se ha encontrada nada sobre `'+y+'` :thinking:\nPrueba buscando con otro personaje.'
