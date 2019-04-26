@@ -34,3 +34,19 @@ async def on_message(msg):
         pass
 
 bot.run(os.getenv('Token'))
+    #Argumentos: 0-comando 1-seccion 2-objeto
+    if msg.content.startswith('-inv'):
+        arguments = msg.content.split("/")
+        action = arguments[1].lower()
+        if action == 'add':
+            dnd.add_to_inventory(msg.author, arguments[2])
+            await msg.channel.send('Se ha añadido un ' + arguments[2] + ' al inventario, **BABY**')
+            pass
+        elif action == "show":
+            result = dnd.show_inventory(msg.author)
+            await msg.channel.send('Inventario: \n' + '\n '.join(result))
+            pass
+        elif action == "delete":
+            result = dnd.delete_from_inventory(msg.author, arguments[2])
+            await msg.channel.send(result)
+
