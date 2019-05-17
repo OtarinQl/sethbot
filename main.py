@@ -33,7 +33,6 @@ async def on_message(msg):
         await msg.channel.send('Los dados rollearon: ' + ', '.join(map(lambda x0: str(x0), results)))
         pass
 
-bot.run(os.getenv('Token'))
     #Argumentos: 0-comando 1-seccion 2-objeto
     if msg.content.startswith('-inv'):
         arguments = msg.content.split("/")
@@ -50,3 +49,13 @@ bot.run(os.getenv('Token'))
             result = dnd.delete_from_inventory(msg.author, arguments[2])
             await msg.channel.send(result)
 
+token = ""
+
+# Production
+# token = os.getenv('Token')
+
+# Local
+with open("token.txt", "r") as token_file:
+    token = token_file.readline()
+
+bot.run(token)
