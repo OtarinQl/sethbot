@@ -3,6 +3,7 @@ import os
 from func import twitter, housamo
 from discord.ext import commands
 import dnd
+import firebase
 
 bot = commands.Bot(command_prefix = '-')
 
