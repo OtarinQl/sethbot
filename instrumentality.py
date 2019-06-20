@@ -11,7 +11,7 @@ def update_server_user_info():
 def is_user_opted_in(user):
     user_id = user.name + '-' + user.discriminator
     user_document = get_user(user_id, user.guild.id)
-    if  'instrumentality' in user_document:
+    if  user_document is not None and 'instrumentality' in user_document:
         return user_document['instrumentality']
     else:
         return False
