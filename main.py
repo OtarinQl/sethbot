@@ -5,7 +5,6 @@ from func import twitter, housamo
 import discord
 from discord.ext import commands
 import dnd
-import firebase
 import instrumentality as instr
 
 bot = commands.Bot(command_prefix='-', description='Eating ass')
