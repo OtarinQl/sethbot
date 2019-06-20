@@ -1,4 +1,5 @@
 import os
+import json
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
@@ -7,6 +8,7 @@ from firebase_admin import firestore
 fire_json = os.getenv('FirebaseJson')
 
 if fire_json != None:
+    fire_json = json.loads(fire_json)
     cred = credentials.Certificate(fire_json)
     firebase_admin.initialize_app(cred)
 else:
