@@ -1,3 +1,4 @@
 discord.py
 asyncio
 requests_html
+firebase_admin
