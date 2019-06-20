@@ -13,7 +13,7 @@ bot = commands.Bot(command_prefix='-', description='Eating ass')
 @bot.event
 async def on_ready():
     print('El bot está conectado.')
-    await bot.change_presence(activity=discord.Game(name='with himself'))
+    # await bot.change_presence(activity=discord.Game(name='with himself'))
 
 
 @bot.command()
@@ -98,8 +98,8 @@ async def opt_out(ctx):
 
 @bot.event
 async def on_message(msg):
-    if not msg.author.bot and instr.is_user_opted_in(msg.author):
-        instr.store_message(msg)
+    # if not msg.author.bot and instr.is_user_opted_in(msg.author):
+    #     instr.store_message(msg)
 
     await bot.process_commands(msg)
 
