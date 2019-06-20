@@ -1,13 +1,19 @@
+import os
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
 # Use a service account
-cred = credentials.Certificate('firebase-credentials.json')
-firebase_admin.initialize_app(cred)
+fire_json = os.getenv('FirebaseJson')
+
+if fire_json != None:
+    cred = credentials.Certificate(fire_json)
+    firebase_admin.initialize_app(cred)
+else:
+    cred = credentials.Certificate('firebase-credentials.json')
+    firebase_admin.initialize_app(cred)
 
 db = firestore.client()
-
 
 def store_instrumentality_message(content: str, message_id: str, user_id: str, server_id: str):
     user_ref = db.collection(u'servers').document(server_id).collection(
