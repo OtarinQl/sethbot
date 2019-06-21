@@ -6,6 +6,7 @@ import discord
 from discord.ext import commands
 import dnd
 import instrumentality as instr
+import e621 as e621api
 
 bot = commands.Bot(command_prefix='-', description='Eating ass')
 
@@ -94,6 +95,22 @@ async def opt_in(ctx):
 async def opt_out(ctx):
     instr.opt_out(ctx.message.author)
     await ctx.send("Acabas de salir del programa de instrumentalidad humana, **BABY**")
+
+
+@bot.command()
+async def e621(ctx, quantity: int = 3, *, tags: str):
+    await ctx.send("Toy buscando dame un sec...")
+    result = e621api.search(tags, quantity)
+    if len(result) is 0:
+        await ctx.send('No encontre nada, sos el weon de los fetiches raros <:alpsiedad:576569161497706506>')
+    else:
+        for image in result:
+            await ctx.send(image)
+
+
+@bot.command()
+async def status(ctx, *, status):
+    await bot.change_presence(activity=discord.Game(name=status))
 
 
 @bot.event
