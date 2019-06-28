@@ -9,7 +9,7 @@ import instrumentality as instr
 import e621 as e621api
 import time
 
-bot = commands.Bot(command_prefix='!', description='Eating ass')
+bot = commands.Bot(command_prefix='-', description='Eating ass')
 
 
 @bot.event
