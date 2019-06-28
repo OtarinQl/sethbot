@@ -1,14 +1,15 @@
 # Thunderbot v.2.0 20/06/2019
 # Te quiero Ota~
 import os
-from func import twitter, housamo
+from func import twitter
 import discord
 from discord.ext import commands
 import dnd
 import instrumentality as instr
 import e621 as e621api
+import time
 
-bot = commands.Bot(command_prefix='-', description='Eating ass')
+bot = commands.Bot(command_prefix='!', description='Eating ass')
 
 
 @bot.event
@@ -43,7 +44,8 @@ async def t(ctx, link):
 
 @bot.command()
 async def h(ctx, husbando, rarity=3):
-    await ctx.send(housamo(husbando, rarity))
+    # await ctx.send(housamo(husbando, rarity))
+    await ctx.send('Ota no implemento esto aun, **BABY**')
 
 
 @bot.group()
@@ -113,11 +115,18 @@ async def status(ctx, *, status):
     await bot.change_presence(activity=discord.Game(name=status))
 
 
+@bot.command()
+async def highfive(ctx):
+    await ctx.send("Highfive!")
+    time.sleep(1)
+    await ctx.send("**SLAP**")
+    
+
 @bot.event
 async def on_message(msg):
     await bot.process_commands(msg)
     
-    if not msg.author.bot and instr.is_user_opted_in(msg.author):
+    if not msg.author.bot and instr.is_user_opted_in(msg.author) and not msg.content.startswith(bot.command_prefix):
         instr.store_message(msg)
 
 
