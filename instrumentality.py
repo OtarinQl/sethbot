@@ -1,4 +1,5 @@
-from firebase import store_instrumentality_message, get_user, merge_user
+from firebase import store_instrumentality_message, get_user, merge_user, get_user_messages
+import watson
 
 def store_message(message):
     user = message.author.name + '-' + message.author.discriminator
@@ -30,4 +31,11 @@ def opt_out(user):
     }
     merge_user(user_id, str(user.guild.id), merge)
 
+def personality_insight(user, guild):
+    # Obtener todos los mensajes del usuario
+    messages = get_user_messages(user, guild)
+    # print(messages)
+    # Pasar los mensajes a Watson
+    watson.create_personality(messages)
+    pass
     

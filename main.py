@@ -120,6 +120,22 @@ async def highfive(ctx):
     await ctx.send("Highfive!")
     time.sleep(1)
     await ctx.send("**SLAP**")
+
+@bot.command()
+async def personality(ctx):
+    instr.personality_insight(ctx.author,ctx.guild)
+    await ctx.send("Tenes una hermosa personalidad, **BABY**")
+    time.sleep(1)
+    await ctx.send("...")
+    time.sleep(1)
+    await ctx.send(f"-le agarra una nalga a {ctx.author.name}-")
+    time.sleep(2)
+    await ctx.send("**BAAAABY**")
+
+@bot.command()
+async def debug(ctx):
+    await ctx.send(f"{ctx.author}")
+    await ctx.send(f"{ctx.guild}")
     
 
 @bot.event

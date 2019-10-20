@@ -34,6 +34,13 @@ def merge_user(user_id, server_id, merge):
     user_ref = db.collection(u'servers').document(server_id).collection(u'users').document(user_id)
     user_ref.set(merge, merge=True)
 
+def get_user_messages(user, guild):
+    messages = db.collection(u'servers').document(f'{guild.id}').collection(u'users').document(f'{user.name}-{user.discriminator}').collection(u'messages').get()
+    messages_array = []
+    for message in messages:
+        messages_array.append(message.to_dict())
+    return messages_array
+
 # doc_ref = db.collection(u'users').document(u'alovelace')
 # doc_ref.set({
 #     u'first': u'Ada',
