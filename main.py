@@ -10,7 +10,10 @@ import e621 as e621api
 import time
 
 bot = commands.Bot(command_prefix='-', description='Eating ass')
-
+rp_counter = 0.0
+#Estas siguientes variables habria que sacarlas del entorno y evitar numeros magicos
+rp_channel = "576561946774601749"
+version_text = "20/10/2019 Nazi Roller Bot Electric Boogaloo V1"
 
 @bot.event
 async def on_ready():
@@ -120,15 +123,42 @@ async def highfive(ctx):
     await ctx.send("Highfive!")
     time.sleep(1)
     await ctx.send("**SLAP**")
-    
+
+@bot.command()
+async def version(ctx):
+    global version_text
+    await ctx.send(version_text)    
 
 @bot.event
 async def on_message(msg):
     await bot.process_commands(msg)
+    global rp_counter
     
     if not msg.author.bot and instr.is_user_opted_in(msg.author) and not msg.content.startswith(bot.command_prefix):
         instr.store_message(msg)
 
+    if not msg.author.bot:
+        #Procesar si es un mensaje de rp aca
+        if is_rp(msg) and msg.channel.id != rp_channel:
+            rp_counter += 1.0
+        elif rp_counter > 0:
+            rp_counter -= 0.5
+
+        if rp_counter >= 3 and rp_counter < 4:
+            await msg.channel.send("**SLAP**")
+            time.sleep(1)
+            await msg.channel.send("Parece que alguien anda roleando afuera de #role-playing, **BABY**")
+            time.sleep(1)
+            await msg.channel.send("Miren que me cago en todos si no rolean donde deben, **BABY**")
+
+        if rp_counter >= 6:
+            rp_counter = 0
+            await msg.channel.send("No me tienten, porque me esta doliendo el estomago... **BABY**")
+
+
+def is_rp(msg):
+    return msg.content.startswith('*') and msg.content.endswith('*')
+    
 
 # Production
 token = os.getenv('Token')
