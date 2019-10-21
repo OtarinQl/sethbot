@@ -12,7 +12,7 @@ import time
 bot = commands.Bot(command_prefix='-', description='Eating ass')
 rp_counter = 0.0
 #Estas siguientes variables habria que sacarlas del entorno y evitar numeros magicos
-rp_channel = 576561946774601749
+rp_channel = 576562538674651137 
 version_text = "20/10/2019 Nazi Roller Bot Electric Boogaloo V1"
 
 @bot.event
