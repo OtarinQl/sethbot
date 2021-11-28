@@ -102,16 +102,31 @@ async def opt_out(ctx):
     await ctx.send("Acabas de salir del programa de instrumentalidad humana, **BABY**")
 
 
-@bot.command()
-async def e621(ctx, quantity: int = 3, *, tags: str):
-    await ctx.send("Toy buscando dame un sec...")
-    result = e621api.search(tags, quantity)
-    if len(result) is 0:
-        await ctx.send('No encontre nada, sos el weon de los fetiches raros <:alpsiedad:576569161497706506>')
+@bot.command(name='e')
+async def _promSearcher(self, ctx, limit, *, tags = ''):
+    if tags:
+        tags = tags.split(' ')
     else:
-        for image in result:
-            await ctx.send(image)
+        tags = []
+        
+    try:
+        Posts = getImages(tags, limit)
+    except Exception as e:
+        return await ctx.send(e)
+    
+    if Posts:
+        for Post in Posts:
+            EmbedMsg = Embed(
+                title='Publicación en 621...',
+                description='Artista: {0}'.format(Post['author']),
+                url='https://e621.net/posts/{0}'.format(Post['id'])
+                )
+                
+            EmbedMsg.set_image(url= Post['url'])
 
+            await ctx.send(embed=EmbedMsg)
+    else:
+        await ctx.send('La búsqueda no ha dado resultados. Pareces ser de gustos muy peculiares :woozy_face:')
 
 @bot.command()
 async def status(ctx, *, status):
