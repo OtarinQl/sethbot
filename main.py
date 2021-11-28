@@ -110,13 +110,13 @@ async def _promSearcher(self, ctx, limit, *, tags = ''):
         tags = []
         
     try:
-        Posts = getImages(tags, limit)
+        Posts = e621api.getImages(tags, limit)
     except Exception as e:
         return await ctx.send(e)
     
     if Posts:
         for Post in Posts:
-            EmbedMsg = Embed(
+            EmbedMsg = discord.Embed(
                 title='Publicación en 621...',
                 description='Artista: {0}'.format(Post['author']),
                 url='https://e621.net/posts/{0}'.format(Post['id'])
